@@ -33,10 +33,12 @@ Before you begin, make sure you have the following installed:
 4. Open the `.env` file and add your MySQL configuration:
 
    ```
+   MYSQL_ROOT_PASSWORD=DB_ROOT_PASSWORD
    MYSQL_HOST=mysql
+   MYSQL_DB=your_database
+   MYSQL_DATABASE=mysql_database_name
    MYSQL_USER=your_username
    MYSQL_PASSWORD=your_password
-   MYSQL_DB=your_database
    ```
 
 ## Usage
