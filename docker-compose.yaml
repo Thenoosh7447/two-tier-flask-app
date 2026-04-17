@@ -1,0 +1,42 @@
+services:
+    mysql:
+      image: mysql:8.0
+      container_name: mysql-con
+      env_file:
+        - .env
+      networks:
+        - data-bridge
+      volumes:
+        - /home/ubuntu/volumes/sql-data:/var/lib/mysql
+      ports:
+        - "3306:3306"
+      restart: always
+      healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+        interval: 5s
+        timeout: 5s
+        retries: 5
+
+
+    flask-app:
+      image: thenoosh/two-tier-flask-app:latest
+      container_name: backend-con
+      env_file:
+        - .env
+      ports:
+        - "80:5000"
+      networks:
+        - data-bridge
+      depends_on:
+        mysql:
+          condition: service_healthy
+      restart: always
+      healthcheck:
+        test: ["CMD","curl -f http://localhost:5000/heath || exit 1 "]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+
+networks:
+  data-bridge:
+
